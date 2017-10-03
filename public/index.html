@@ -45,7 +45,27 @@
     </section>
 
     <section class='options'>
-
+        <form class='project-palette'>
+            <button class='new-palette'>Generate New Palette</button>
+            <hr>
+            <div class='save-palette'>
+                <div class="dropdown">
+                    <div class="dropbtn">Project <img src="./assets/down.svg" alt="down-icon"></div>
+                    <div class="dropdown-content">
+                        <p class='drop-project'>Prj1</p>
+                        <p class='drop-project'>Prj2</p>
+                        <p class='drop-project'>Prj3</p>
+                    </div>
+                </div>
+                <input type="text" class='palette-inpt' name="palatte" id="palatte" placeholder="Palette Name">
+                <button class='save save-plt-btn'>Save Palette</button>
+            </div>
+            <hr>
+            <div class='save-project'>
+                <input type="text" class='project-inpt' name="project" id="project" placeholder="New Project Name">
+                <button class='save save-prj-btn'>Save Project</button>
+            </div>
+        </form>
     </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
