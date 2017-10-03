@@ -32,7 +32,6 @@ $('.color-container').click( '.lock-icon', () => {
 $('.color-container').on('keyup', '.hex-code', () => {
     const src = $(event.target)
     const srcColor = src.text()
-    console.log(src.css())
-    src.css('.background-color', srcColor)
+    src.closest('.color').css('background-color', `${srcColor}`)
 })
        
