@@ -9,8 +9,11 @@ const makeColor = () => {
 
 const setColorBar = (num) => {
     const color = makeColor()
-    $(`.color${num}`).css('background-color', color)
-    $(`.hex-code${num}`).text( color )
+    console.log($('.color').hasClass('locked'))
+    if (!$(`.color${num}`).hasClass('locked')) {
+        $(`.color${num}`).css('background-color', color)
+        $(`.hex-code${num}`).text( color )
+    }
 }
 
 const colorLoop = () => {
@@ -26,8 +29,11 @@ $('.color-container').click( '.lock-icon', () => {
     
     if(src.attr('src') === './assets/unlock.svg') {
         src.attr('src', './assets/padlock.svg')
+        src.closest('.color').toggleClass('locked')
     } else {
         src.attr('src', './assets/unlock.svg')
+        src.closest('.color').toggleClass('locked')
+        
     }
 });
 
