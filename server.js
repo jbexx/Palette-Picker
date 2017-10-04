@@ -26,9 +26,9 @@ app.post('/api/v1/projects/', (request, response) => {
 })
 
 app.post('/api/v1/palettes/', (request, response) => {
-    const { name, hex1, hex2, hex3, hex4, hex5, project_id } = request.body
+    const palette = request.body
 
-    database('palettes').insert({ name, hex1, hex2, hex3, hex4, hex5, project_id }, '*')
+    database('palettes').insert(palette, '*')
     .then( palette => {
         response.status(201).json(palette)
     })

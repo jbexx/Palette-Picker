@@ -8,8 +8,8 @@ const makeColor = () => {
   }
 
 const setColorBar = (num) => {
-    const color = makeColor()
-    console.log($('.color').hasClass('locked'))
+    const color = makeColor();
+
     if (!$(`.color${num}`).hasClass('locked')) {
         $(`.color${num}`).css('background-color', color)
         $(`.hex-code${num}`).text( color )
@@ -22,9 +22,7 @@ const colorLoop = () => {
     }
 }
 
-$(document).ready( () => colorLoop());
-
-$('.color-container').click( '.lock-icon', () => {
+const toggleLock = (e) => {
     const src = $(event.target)
     
     if(src.attr('src') === './assets/unlock.svg') {
@@ -33,18 +31,60 @@ $('.color-container').click( '.lock-icon', () => {
     } else {
         src.attr('src', './assets/unlock.svg')
         src.closest('.color').toggleClass('locked')
-        
     }
-});
+}
 
-$('.color-container').on('keyup', '.hex-code', () => {
-    const src = $(event.target);
+const changeColor = (e) => {
+    const src = $(e.target);
     const srcColor = src.text();
     src.closest('.color').css('background-color', `${srcColor}`)
-});
+}
+
+const palettePost = () => {
+    const postBody = {
+        name: $('.palette-inpt').val(),
+        hex1: $('.color1').css('background-color'),
+        hex2: $('.color2').css('background-color'),
+        hex3: $('.color3').css('background-color'),
+        hex4: $('.color4').css('background-color'),
+        hex5: $('.color5').css('background-color'),
+        project_id: 2
+    };
+
+    fetch('/api/v1/palettes', {
+        method: 'POST',
+        body: JSON.stringify(postBody),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then( data => data.json())
+    .then( data => console.log(data))
+    .catch( err => console.log(err))
+}
+
+const enableBtns = () => {
+    $('.palette-inpt').val() !== '' ? $('.save-plt-btn').attr('disabled', false) : $('.save-plt-btn').attr('disabled', true);
+    $('.project-inpt').val() !== '' ? $('.save-prj-btn').attr('disabled', false) : $('.save-prj-btn').attr('disabled', true);
+}
+
+$(document).ready( () => colorLoop());
+
+$('.color-container').click( '.lock-icon', (e) => toggleLock(e));
+
+$('.color-container').on('keyup', '.hex-code', (e) => changeColor(e));
 
 $('.new-palette').click( (e) => {
     e.preventDefault(); 
     colorLoop();
 });
+
+$('.save-plt-btn').click( (e) => {
+    e.preventDefault();
+    palettePost();
+});
+
+$('.palette-inpt').on('keyup', enableBtns);
+
+$('.project-inpt').on('keyup', enableBtns);
        
