@@ -39,8 +39,23 @@ app.post('/api/v1/palettes/', (request, response) => {
 
 app.get('/api/v1/projects', (request, response) => {
     database('projects').select()
-    .then
+    .then( project => {
+        response.status(200).json(project);
+    })
+    .catch( err => {
+        response.status(500).json({ err })
+    })
 });
+
+app.get('/api/v1/palettes', (request, response) => {
+    database('palettes').select()
+    .then( palette => {
+        response.status(200).json(palette);
+    })
+    .catch( err => {
+        resonse.status(500).json({ err })
+    })
+})
 
 
 app.listen(app.get('port'), () => {
