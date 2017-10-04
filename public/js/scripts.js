@@ -13,11 +13,13 @@ const setColorBar = (num) => {
     $(`.hex-code${num}`).text( color )
 }
 
-$(document).ready( () => {
-   for (var i = 0; i < 6; i++) {
+const colorLoop = () => {
+    for (var i = 0; i < 6; i++) {
         setColorBar(i)
     }
-})
+}
+
+$(document).ready( () => colorLoop());
 
 $('.color-container').click( '.lock-icon', () => {
     const src = $(event.target)
@@ -27,11 +29,16 @@ $('.color-container').click( '.lock-icon', () => {
     } else {
         src.attr('src', './assets/unlock.svg')
     }
-})
+});
 
 $('.color-container').on('keyup', '.hex-code', () => {
-    const src = $(event.target)
-    const srcColor = src.text()
+    const src = $(event.target);
+    const srcColor = src.text();
     src.closest('.color').css('background-color', `${srcColor}`)
-})
+});
+
+$('.new-palette').click( (e) => {
+    e.preventDefault(); 
+    colorLoop();
+});
        
