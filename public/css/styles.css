@@ -100,12 +100,22 @@ hr {
     width: 75%;
 }
 
+.dropdown-content p:hover,
+.dropdown:hover .dropbtn,
+.save:hover,
 .new-palette:hover {
     background-color: #DE25E8;
 }
 
+.save-plt-btn:focus,
+.save-prj-btn:focus,
 .new-palette:focus {
     outline: none;
+}
+
+.save-plt-btn:disabled,
+.save-prj-btn:disabled {
+    background-color: #3F3F3F;
 }
 
 .save-palette {
@@ -146,15 +156,7 @@ hr {
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content p:hover {
-    background-color: #DE25E8
-}
-
-.dropdown:hover .dropbtn {
-    background-color: #DE25E8;
+    display: unset;
 }
 
 .save {
@@ -164,10 +166,6 @@ hr {
     font-size: 1.2em;
     height: 45px;
     width: 150px;
-}
-
-.save:hover {
-    background-color: #DE25E8;
 }
 
 .save-project {

@@ -4,7 +4,7 @@ exports.up = (knex, Promise) => {
 
       knex.schema.createTable('projects', (table) => {
         table.increments('id').primary()
-        table.string('project_name')
+        table.string('project_name').unique()
         table.timestamps(true, true)
       }),
 
