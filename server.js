@@ -22,8 +22,8 @@ app.post('/api/v1/projects/', (request, response) => {
     })
     .catch( error => {
         response.status(500).json({ error });
-    })
-})
+    });
+});
 
 app.post('/api/v1/palettes/', (request, response) => {
     const palette = request.body
@@ -34,8 +34,8 @@ app.post('/api/v1/palettes/', (request, response) => {
     })
     .catch( error => {
         response.status(500).json({ error });
-    })
-})
+    });
+});
 
 app.get('/api/v1/projects', (request, response) => {
     database('projects').select()
@@ -44,7 +44,7 @@ app.get('/api/v1/projects', (request, response) => {
     })
     .catch( err => {
         response.status(500).json({ err })
-    })
+    });
 });
 
 app.get('/api/v1/palettes', (request, response) => {
@@ -53,9 +53,19 @@ app.get('/api/v1/palettes', (request, response) => {
         response.status(200).json(palette);
     })
     .catch( err => {
-        resonse.status(500).json({ err })
+        response.status(500).json({ err })
+    });
+});
+
+app.get('/api/v1/projects/:id/palettes', (request, response) => {
+    database('palettes').where({ project_id: request.params.id }).select()
+    .then( palette => {
+        response.status(200).json(palette);
     })
-})
+    .catch( err => {
+        response.status(500).json({ err })
+    });
+});
 
 
 app.listen(app.get('port'), () => {
