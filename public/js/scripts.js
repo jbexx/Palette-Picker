@@ -40,6 +40,27 @@ const changeColor = (e) => {
     src.closest('.color').css('background-color', `${srcColor}`)
 }
 
+const addProject = (name) => {
+    $('.dropdown-content').append(`<p class='drop-project'>${name}</p>`)
+}
+
+const setProjects = (projects) => {
+    for (let i = 0; i < projects.length; i++) {
+        addProject(projects[i].project_name)
+    }
+}
+
+const getProjects = () => {
+    fetch('/api/v1/projects')
+    .then( response => response.json())
+    .then( data => setProjects(data))
+}
+
+const getReady = () => {
+    getProjects();
+    colorLoop();
+}
+
 const palettePost = () => {
     const paletteBody = {
         name: $('.palette-inpt').val(),
@@ -64,7 +85,6 @@ const palettePost = () => {
 }
 
 const projectPost = () => {
-    console.log($('.project-inpt').val())
     fetch('/api/v1/projects', {
         method: 'POST',
         body: JSON.stringify({ project_name: $('.project-inpt').val() }),
@@ -73,7 +93,7 @@ const projectPost = () => {
         }
     })
     .then( data => data.json())
-    .then( data => console.log(data))
+    .then( data => addProject(data[0].project_name))
     .catch( err => console.log(err))
 }
 
@@ -82,7 +102,7 @@ const enableBtns = () => {
     $('.project-inpt').val() !== '' ? $('.save-prj-btn').attr('disabled', false) : $('.save-prj-btn').attr('disabled', true);
 }
 
-$(document).ready( () => colorLoop());
+$(document).ready( () => getReady());
 
 $('.color-container').click( '.lock-icon', (e) => toggleLock(e));
 
