@@ -23,7 +23,7 @@ const colorLoop = () => {
 }
 
 const toggleLock = (e) => {
-    const src = $(event.target)
+    const src = $(e.target)
     
     if(src.attr('src') === './assets/unlock.svg') {
         src.attr('src', './assets/padlock.svg')
@@ -41,7 +41,7 @@ const changeColor = (e) => {
 }
 
 const palettePost = () => {
-    const postBody = {
+    const paletteBody = {
         name: $('.palette-inpt').val(),
         hex1: $('.color1').css('background-color'),
         hex2: $('.color2').css('background-color'),
@@ -53,7 +53,21 @@ const palettePost = () => {
 
     fetch('/api/v1/palettes', {
         method: 'POST',
-        body: JSON.stringify(postBody),
+        body: JSON.stringify(paletteBody),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then( data => data.json())
+    .then( data => console.log(data))
+    .catch( err => console.log(err))
+}
+
+const projectPost = () => {
+    console.log($('.project-inpt').val())
+    fetch('/api/v1/projects', {
+        method: 'POST',
+        body: JSON.stringify({ project_name: $('.project-inpt').val() }),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -83,6 +97,11 @@ $('.save-plt-btn').click( (e) => {
     e.preventDefault();
     palettePost();
 });
+
+$('.save-prj-btn').click( (e) => {
+    e.preventDefault();
+    projectPost();
+})
 
 $('.palette-inpt').on('keyup', enableBtns);
 
