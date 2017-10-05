@@ -1,6 +1,7 @@
 const makeColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
+
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
@@ -40,23 +41,30 @@ const changeColor = (e) => {
     src.closest('.color').css('background-color', `${srcColor}`)
 }
 
-const addProject = (name) => {
-    $('.dropdown-content').append(`<p class='drop-project'>${name}</p>`)
+const addProject = (name, value) => {
+    $('.dropbtn').append(`<option class='drop-project' value='${value}'>${name}</option>`)
 }
 
-const setProjects = (projects) => {
+const setProjectList = (projects) => {
     for (let i = 0; i < projects.length; i++) {
-        addProject(projects[i].project_name)
+        addProject(projects[i].project_name, projects[i].id)
     }
 }
 
 const getProjects = () => {
     fetch('/api/v1/projects')
     .then( response => response.json())
-    .then( data => setProjects(data))
+    .then( data => {
+        setProjectList(data)
+        displayPalettes(data)
+    })
 }
 
-const getReady = () => {
+const displayPalettes = (data) => {
+    console.log(data)
+}
+
+const readyPage = () => {
     getProjects();
     colorLoop();
 }
@@ -82,6 +90,8 @@ const palettePost = () => {
     .then( data => data.json())
     .then( data => console.log(data))
     .catch( err => console.log(err))
+
+    // $('.palette-inpt').val() = '';    
 }
 
 const projectPost = () => {
@@ -93,8 +103,10 @@ const projectPost = () => {
         }
     })
     .then( data => data.json())
-    .then( data => addProject(data[0].project_name))
+    .then( data => addProject(data[0].project_name, data[0].id))
     .catch( err => console.log(err))
+
+    // $('.project-inpt').val() = '';
 }
 
 const enableBtns = () => {
@@ -102,9 +114,9 @@ const enableBtns = () => {
     $('.project-inpt').val() !== '' ? $('.save-prj-btn').attr('disabled', false) : $('.save-prj-btn').attr('disabled', true);
 }
 
-$(document).ready( () => getReady());
+$(document).ready(readyPage);
 
-$('.color-container').click( '.lock-icon', (e) => toggleLock(e));
+$('.color-container').click('.lock-icon', (e) => toggleLock(e));
 
 $('.color-container').on('keyup', '.hex-code', (e) => changeColor(e));
 
