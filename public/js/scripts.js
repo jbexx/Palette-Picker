@@ -51,18 +51,23 @@ const setProjectList = (projects) => {
     }
 }
 
+const displayPalettes = (data) => {
+data.forEach( (el, i) => {
+        fetch(`/api/v1/projects/${data[i].id}/palettes`)
+        .then( data => data.json())
+        .then( result => console.log('result for palettes', result))
+    });
+}
+
 const getProjects = () => {
     fetch('/api/v1/projects')
     .then( response => response.json())
     .then( data => {
         setProjectList(data)
         displayPalettes(data)
-    })
+    });
 }
 
-const displayPalettes = (data) => {
-    console.log(data)
-}
 
 const readyPage = () => {
     getProjects();
@@ -70,6 +75,7 @@ const readyPage = () => {
 }
 
 const palettePost = () => {
+    console.log('proj key ', $('.dropbtn').val())
     const paletteBody = {
         name: $('.palette-inpt').val(),
         hex1: $('.color1').css('background-color'),
@@ -77,7 +83,7 @@ const palettePost = () => {
         hex3: $('.color3').css('background-color'),
         hex4: $('.color4').css('background-color'),
         hex5: $('.color5').css('background-color'),
-        project_id: 2
+        project_id: $('.dropbtn').val()
     };
 
     fetch('/api/v1/palettes', {
