@@ -58,7 +58,8 @@ app.get('/api/v1/palettes', (request, response) => {
 });
 
 app.get('/api/v1/projects/:id/palettes', (request, response) => {
-    database('palettes').where({ project_id: request.params.id }).select()
+    database('palettes')
+    .where({ project_id: request.params.id }).select()
     .then( palette => {
         response.status(200).json(palette);
     })
@@ -67,7 +68,23 @@ app.get('/api/v1/projects/:id/palettes', (request, response) => {
     });
 });
 
+app.delete('/api/v1/palettes/:id', (request, response) => {
+    const id = request.params;
+
+    database('palettes')
+    .where(id)
+    .del()
+    .then( result => {
+        if(!result) {
+            response.status(422).json({ error: 'dummy' })
+        } else {
+            response.sendStatus(204)
+        }
+    })
+    .catch( err => response.status(500).json({ err }))
+});
+
 
 app.listen(app.get('port'), () => {
     console.log('the server hears you bro!')
-})
+});
