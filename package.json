@@ -20,7 +20,7 @@
     "mocha": "^4.0.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "NODE_ENV=test PORT=3001 mocha",
     "start": "node server.js"
   },
   "repository": {
