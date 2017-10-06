@@ -55,7 +55,7 @@ const displayPalettes = (palettes) => {
     palettes.forEach( (el, i) => {
         $(`.${el.project_id}`).append(`
             <h4>${el.name}</h4>
-            <div class='color-palette' data-colors='[${el.hex1}, ${el.hex2}, ${el.hex3}, ${el.hex4}, ${el.hex5}]'>
+            <div class='color-palette' data-colors='${JSON.stringify([el.hex1, el.hex2, el.hex3, el.hex4, el.hex5])}'>
                 <div class='color-swatch' style='background-color: ${el.hex1}' />
                 <div class='color-swatch' style='background-color: ${el.hex2}' />
                 <div class='color-swatch' style='background-color: ${el.hex3}' />
@@ -138,11 +138,18 @@ const projectPost = () => {
     $('.project-inpt').val('')
 }
 
-const pushPalette = (thing) => {
-    console.log('the thing', thing)
+const pushPalette = (color) => {
+    const palette = $(color).closest('.color-palette')[0]
+    const paletteColors = JSON.parse($(palette).attr('data-colors'))
     
-    
+    paletteColors.forEach( (color, i) => {
+        $(`.color${i}`).css('background-color', color)
+    });
 };
+
+const deletePalette = (target) => {
+
+}
 
 const enableBtns = () => {
     $('.palette-inpt').val() !== '' ? $('.save-plt-btn').attr('disabled', false) : $('.save-plt-btn').attr('disabled', true);
@@ -171,7 +178,11 @@ $('.save-prj-btn').click( (e) => {
 });
 
 $('.projects-palettes').click('.color-palette', (e) => {
-    pushPalette(e.target.closest('.project'));
+    pushPalette(e.target);
+});
+
+$('.projects-palettes').click('.delete-btn', (e) => {
+    deletePalette(e.target)
 });
 
 $('.palette-inpt').on('keyup', enableBtns);
