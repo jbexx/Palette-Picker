@@ -6,7 +6,7 @@
 .color-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    height: 100vh;
+    height: 95vh;
 }
 
 .color {
@@ -176,4 +176,41 @@ hr {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.projects-palettes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    width: 100vw;
+}
+
+.project {
+    margin: auto;
+    height: 200px;
+    width: 150px;
+}
+
+.project > h2 {
+    margin: 20px 10px;
+}
+
+.project > h4 {
+    margin-left: 10px;
+    margin-top: 25px;
+}
+
+.color-palette {
+    cursor: pointer;
+    display: flex;
+    margin: 10px;
+    height: 40px;
+    width: 150px;
+}
+
+.color-swatch {
+    height: 40px;
+    width: 30px;
 }

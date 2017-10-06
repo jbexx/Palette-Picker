@@ -42,29 +42,53 @@ const changeColor = (e) => {
 }
 
 const addProject = (name, value) => {
-    $('.dropbtn').append(`<option class='drop-project' value='${value}'>${name}</option>`)
-}
+    $('.dropbtn').append(`<option class='drop-project' value='${value}'>${name}</option>`);
+};
 
 const setProjectList = (projects) => {
     for (let i = 0; i < projects.length; i++) {
         addProject(projects[i].project_name, projects[i].id)
     }
-}
+};
 
-const displayPalettes = (data) => {
-data.forEach( (el, i) => {
+const displayPalettes = (palettes) => {
+    palettes.forEach( (el, i) => {
+        $(`.${el.project_id}`).append(`
+            <h4>${el.name}</h4>
+            <div class='color-palette' data-colors='[${el.hex1}, ${el.hex2}, ${el.hex3}, ${el.hex4}, ${el.hex5}]'>
+                <div class='color-swatch' style='background-color: ${el.hex1}' />
+                <div class='color-swatch' style='background-color: ${el.hex2}' />
+                <div class='color-swatch' style='background-color: ${el.hex3}' />
+                <div class='color-swatch' style='background-color: ${el.hex4}' />
+                <div class='color-swatch' style='background-color: ${el.hex5}' />
+            </div>
+        `)
+    });
+};
+
+const getPalettes = (data) => {
+    data.forEach( (el, i) => {
         fetch(`/api/v1/projects/${data[i].id}/palettes`)
         .then( data => data.json())
-        .then( result => console.log('result for palettes', result))
+        .then( result => displayPalettes(result))
     });
-}
+};
+
+const displayProjects = (projects) => {
+    projects.forEach( (el, i) => {
+        $('.projects-palettes').append(`
+            <div class='project ${el.id}'><h2>${el.project_name}</h2></div>
+        `)
+    })
+};
 
 const getProjects = () => {
     fetch('/api/v1/projects')
     .then( response => response.json())
     .then( data => {
         setProjectList(data)
-        displayPalettes(data)
+        getPalettes(data)
+        displayProjects(data)
     });
 }
 
@@ -75,7 +99,6 @@ const readyPage = () => {
 }
 
 const palettePost = () => {
-    console.log('proj key ', $('.dropbtn').val())
     const paletteBody = {
         name: $('.palette-inpt').val(),
         hex1: $('.color1').css('background-color'),
@@ -97,7 +120,7 @@ const palettePost = () => {
     .then( data => console.log(data))
     .catch( err => console.log(err))
 
-    // $('.palette-inpt').val() = '';    
+    $('.palette-inpt').val('')    
 }
 
 const projectPost = () => {
@@ -112,13 +135,19 @@ const projectPost = () => {
     .then( data => addProject(data[0].project_name, data[0].id))
     .catch( err => console.log(err))
 
-    // $('.project-inpt').val() = '';
+    $('.project-inpt').val('')
 }
+
+const pushPalette = (thing) => {
+    console.log('the thing', thing)
+    
+    
+};
 
 const enableBtns = () => {
     $('.palette-inpt').val() !== '' ? $('.save-plt-btn').attr('disabled', false) : $('.save-plt-btn').attr('disabled', true);
     $('.project-inpt').val() !== '' ? $('.save-prj-btn').attr('disabled', false) : $('.save-prj-btn').attr('disabled', true);
-}
+};
 
 $(document).ready(readyPage);
 
@@ -139,7 +168,11 @@ $('.save-plt-btn').click( (e) => {
 $('.save-prj-btn').click( (e) => {
     e.preventDefault();
     projectPost();
-})
+});
+
+$('.projects-palettes').click('.color-palette', (e) => {
+    pushPalette(e.target.closest('.project'));
+});
 
 $('.palette-inpt').on('keyup', enableBtns);
 
