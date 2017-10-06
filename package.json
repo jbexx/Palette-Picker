@@ -1,0 +1,37 @@
+{
+  "name": "Palette_Picker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "knexfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "express": "^4.16.1",
+    "knex": "^0.13.0",
+    "md5": "^2.2.1",
+    "pg": "^7.3.0",
+    "randomcolor": "^0.5.3"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbexx/Palette-Picker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbexx/Palette-Picker/issues"
+  },
+  "homepage": "https://github.com/jbexx/Palette-Picker#readme"
+}
