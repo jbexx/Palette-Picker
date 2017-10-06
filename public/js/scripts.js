@@ -122,7 +122,7 @@ const palettePost = () => {
         }
     })
     .then( data => data.json())
-    .then( data => console.log(data))
+    .then( data => displayPalettes(data))
     .catch( err => console.log(err));
 
     $('.palette-inpt').val('');    
@@ -170,35 +170,22 @@ const enableBtns = () => {
 };
 
 $(document).ready(readyPage);
-
-$('.color-container').click('.lock-icon', (e) => toggleLock(e));
-
+$('.palette-inpt').on('keyup', enableBtns);
+$('.project-inpt').on('keyup', enableBtns);
+$('.color-container').on('click', '.lock-icon', (e) => toggleLock(e));
 $('.color-container').on('keyup', '.hex-code', (e) => changeColor(e));
-
+$('.projects-palettes').on('click', '.color-palette', (e) => pushPalette(e.target));
+$('.projects-palettes').on('click', '.delete-btn', (e) => deletePalette(e.target));
 $('.new-palette').click( (e) => {
     e.preventDefault(); 
     colorLoop();
 });
-
 $('.save-plt-btn').click( (e) => {
     e.preventDefault();
     palettePost();
 });
-
 $('.save-prj-btn').click( (e) => {
     e.preventDefault();
     projectPost();
 });
-
-$('.projects-palettes').on('click', '.color-palette', (e) => {
-    pushPalette(e.target);
-});
-
-$('.projects-palettes').on('click', '.delete-btn', (e) => {
-    deletePalette(e.target);
-});
-
-$('.palette-inpt').on('keyup', enableBtns);
-
-$('.project-inpt').on('keyup', enableBtns);
        
