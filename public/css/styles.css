@@ -202,6 +202,17 @@ hr {
     margin-top: 25px;
 }
 
+.palette-header {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    width: 150px;
+}
+
+.delete-btn {
+    cursor: pointer;
+}
+
 .color-palette {
     cursor: pointer;
     display: flex;

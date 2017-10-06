@@ -72,11 +72,11 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
     const id = request.params;
 
     database('palettes')
-    .where(id)
+    .where('id', id)
     .del()
     .then( result => {
         if(!result) {
-            response.status(422).json({ error: 'dummy' })
+            response.status(422).json({ error: 'This palette doesn\'t seem to exists' })
         } else {
             response.sendStatus(204)
         }
@@ -86,5 +86,5 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
 
 
 app.listen(app.get('port'), () => {
-    console.log('the server hears you bro!')
+    console.log('Server is running')
 });

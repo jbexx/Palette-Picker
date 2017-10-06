@@ -6,7 +6,7 @@ const makeColor = () => {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
+  };
 
 const setColorBar = (num) => {
     const color = makeColor();
@@ -15,13 +15,13 @@ const setColorBar = (num) => {
         $(`.color${num}`).css('background-color', color)
         $(`.hex-code${num}`).text( color )
     }
-}
+};
 
 const colorLoop = () => {
     for (var i = 0; i < 6; i++) {
-        setColorBar(i)
+        setColorBar(i);
     }
-}
+};
 
 const toggleLock = (e) => {
     const src = $(e.target)
@@ -33,13 +33,13 @@ const toggleLock = (e) => {
         src.attr('src', './assets/unlock.svg')
         src.closest('.color').toggleClass('locked')
     }
-}
+};
 
 const changeColor = (e) => {
     const src = $(e.target);
     const srcColor = src.text();
-    src.closest('.color').css('background-color', `${srcColor}`)
-}
+    src.closest('.color').css('background-color', `${srcColor}`);
+};
 
 const addProject = (name, value) => {
     $('.dropbtn').append(`<option class='drop-project' value='${value}'>${name}</option>`);
@@ -47,15 +47,18 @@ const addProject = (name, value) => {
 
 const setProjectList = (projects) => {
     for (let i = 0; i < projects.length; i++) {
-        addProject(projects[i].project_name, projects[i].id)
+        addProject(projects[i].project_name, projects[i].id);
     }
 };
 
 const displayPalettes = (palettes) => {
-    palettes.forEach( (el, i) => {
+    palettes.forEach( el => {
         $(`.${el.project_id}`).append(`
-            <h4>${el.name}</h4>
-            <div class='color-palette' data-colors='${JSON.stringify([el.hex1, el.hex2, el.hex3, el.hex4, el.hex5])}'>
+            <div class='palette-header'>
+                <h4>${el.name}</h4>
+                <img src='../assets/trash.svg' alt='trash can' class='delete-btn' />
+            </div>
+            <div class='color-palette' data-id='${el.id}' data-colors='${JSON.stringify([el.hex1, el.hex2, el.hex3, el.hex4, el.hex5])}'>
                 <div class='color-swatch' style='background-color: ${el.hex1}' />
                 <div class='color-swatch' style='background-color: ${el.hex2}' />
                 <div class='color-swatch' style='background-color: ${el.hex3}' />
@@ -79,24 +82,24 @@ const displayProjects = (projects) => {
         $('.projects-palettes').append(`
             <div class='project ${el.id}'><h2>${el.project_name}</h2></div>
         `)
-    })
+    });
 };
 
 const getProjects = () => {
     fetch('/api/v1/projects')
     .then( response => response.json())
     .then( data => {
-        setProjectList(data)
-        getPalettes(data)
-        displayProjects(data)
+        setProjectList(data);
+        getPalettes(data);
+        displayProjects(data);
     });
-}
+};
 
 
 const readyPage = () => {
     getProjects();
     colorLoop();
-}
+};
 
 const palettePost = () => {
     const paletteBody = {
@@ -118,10 +121,10 @@ const palettePost = () => {
     })
     .then( data => data.json())
     .then( data => console.log(data))
-    .catch( err => console.log(err))
+    .catch( err => console.log(err));
 
-    $('.palette-inpt').val('')    
-}
+    $('.palette-inpt').val('');    
+};
 
 const projectPost = () => {
     fetch('/api/v1/projects', {
@@ -133,23 +136,30 @@ const projectPost = () => {
     })
     .then( data => data.json())
     .then( data => addProject(data[0].project_name, data[0].id))
-    .catch( err => console.log(err))
+    .catch( err => console.log(err));
 
-    $('.project-inpt').val('')
-}
+    $('.project-inpt').val('');
+};
 
 const pushPalette = (color) => {
-    const palette = $(color).closest('.color-palette')[0]
-    const paletteColors = JSON.parse($(palette).attr('data-colors'))
+    const palette = $(color).closest('.color-palette')[0];
+    const paletteColors = JSON.parse($(palette).attr('data-colors'));
     
     paletteColors.forEach( (color, i) => {
-        $(`.color${i}`).css('background-color', color)
+        $(`.color${i + 1}`).css('background-color', color)
     });
 };
 
 const deletePalette = (target) => {
+    const id = $(target).closest('.project').find('.color-palette').attr('data-id')
+    console.log(id)
 
-}
+    fetch(`/api/v1/palettes/${id}`, {
+        method: 'DELETE'
+    })
+    .then( () => $(`.${id}`).remove())
+    .catch( err => console.log(err))
+};
 
 const enableBtns = () => {
     $('.palette-inpt').val() !== '' ? $('.save-plt-btn').attr('disabled', false) : $('.save-plt-btn').attr('disabled', true);
@@ -177,12 +187,12 @@ $('.save-prj-btn').click( (e) => {
     projectPost();
 });
 
-$('.projects-palettes').click('.color-palette', (e) => {
-    pushPalette(e.target);
-});
+// $('.projects-palettes').click('.color-palette', (e) => {
+//     pushPalette(e.target);
+// });
 
 $('.projects-palettes').click('.delete-btn', (e) => {
-    deletePalette(e.target)
+    deletePalette(e.target);
 });
 
 $('.palette-inpt').on('keyup', enableBtns);
