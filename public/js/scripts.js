@@ -54,16 +54,18 @@ const setProjectList = (projects) => {
 const displayPalettes = (palettes) => {
     palettes.forEach( el => {
         $(`.${el.project_id}`).append(`
-            <div class='palette-header'>
-                <h4>${el.name}</h4>
-                <img src='../assets/trash.svg' alt='trash can' class='delete-btn' />
-            </div>
-            <div class='color-palette' data-id='${el.id}' data-colors='${JSON.stringify([el.hex1, el.hex2, el.hex3, el.hex4, el.hex5])}'>
-                <div class='color-swatch' style='background-color: ${el.hex1}' />
-                <div class='color-swatch' style='background-color: ${el.hex2}' />
-                <div class='color-swatch' style='background-color: ${el.hex3}' />
-                <div class='color-swatch' style='background-color: ${el.hex4}' />
-                <div class='color-swatch' style='background-color: ${el.hex5}' />
+            <div class='whole-palette'>
+                <div class='palette-header'>
+                    <h4>${el.name}</h4>
+                    <img src='../assets/trash.svg' alt='trash can' class='delete-btn' />
+                </div>
+                <div class='color-palette' data-id='${el.id}' data-colors='${JSON.stringify([el.hex1, el.hex2, el.hex3, el.hex4, el.hex5])}'>
+                    <div class='color-swatch' style='background-color: ${el.hex1}' />
+                    <div class='color-swatch' style='background-color: ${el.hex2}' />
+                    <div class='color-swatch' style='background-color: ${el.hex3}' />
+                    <div class='color-swatch' style='background-color: ${el.hex4}' />
+                    <div class='color-swatch' style='background-color: ${el.hex5}' />
+                </div>
             </div>
         `)
     });
@@ -151,14 +153,15 @@ const pushPalette = (color) => {
 };
 
 const deletePalette = (target) => {
-    const id = $(target).closest('.project').find('.color-palette').attr('data-id')
-    console.log(id)
+    const id = $(target).closest('.whole-palette').find('.color-palette').attr('data-id');
 
     fetch(`/api/v1/palettes/${id}`, {
         method: 'DELETE'
     })
     .then( () => $(`.${id}`).remove())
-    .catch( err => console.log(err))
+    .catch( err => console.log(err));
+
+    $(target).closest('.whole-palette').remove();
 };
 
 const enableBtns = () => {
@@ -187,11 +190,11 @@ $('.save-prj-btn').click( (e) => {
     projectPost();
 });
 
-// $('.projects-palettes').click('.color-palette', (e) => {
-//     pushPalette(e.target);
-// });
+$('.projects-palettes').on('click', '.color-palette', (e) => {
+    pushPalette(e.target);
+});
 
-$('.projects-palettes').click('.delete-btn', (e) => {
+$('.projects-palettes').on('click', '.delete-btn', (e) => {
     deletePalette(e.target);
 });
 

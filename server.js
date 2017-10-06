@@ -72,7 +72,7 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
     const id = request.params;
 
     database('palettes')
-    .where('id', id)
+    .where(id)
     .del()
     .then( result => {
         if(!result) {
@@ -86,5 +86,7 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
 
 
 app.listen(app.get('port'), () => {
-    console.log('Server is running')
+    console.log('Hello?, Is your server running?');
+    console.log('--yes?');
+    console.log('Then you better go catch it!!!');
 });
