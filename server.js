@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('port', process.env.PORT || 3000);
 
-app.post('/api/v1/projects/', (request, response) => {
+app.post('/api/v1/projects', (request, response) => {
     const project_name = request.body
 
     database('projects').insert(project_name, '*')
@@ -25,7 +25,7 @@ app.post('/api/v1/projects/', (request, response) => {
     });
 });
 
-app.post('/api/v1/palettes/', (request, response) => {
+app.post('/api/v1/palettes', (request, response) => {
     const palette = request.body
 
     database('palettes').insert(palette, '*')
@@ -87,6 +87,8 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
 
 app.listen(app.get('port'), () => {
     console.log('Hello?, Is your server running?');
-    console.log('--yes?');
+    console.log('--yea?');
     console.log('Then you better go catch it!!!');
 });
+
+module.exports = app;

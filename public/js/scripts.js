@@ -188,4 +188,3 @@ $('.save-prj-btn').click( (e) => {
     e.preventDefault();
     projectPost();
 });
-       
