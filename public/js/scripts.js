@@ -83,7 +83,7 @@ const displayProjects = (projects) => {
     projects.forEach( (el, i) => {
         $('.projects-palettes').append(`
             <div class='project ${el.id}'><h2>${el.project_name}</h2></div>
-        `)
+        `);
     });
 };
 
@@ -148,7 +148,7 @@ const pushPalette = (color) => {
     const paletteColors = JSON.parse($(palette).attr('data-colors'));
     
     paletteColors.forEach( (color, i) => {
-        $(`.color${i + 1}`).css('background-color', color)
+        $(`.color${i + 1}`).css('background-color', color);
     });
 };
 

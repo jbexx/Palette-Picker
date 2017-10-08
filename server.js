@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('port', process.env.PORT || 3000);
 
 app.post('/api/v1/projects', (request, response) => {
-    const project_name = request.body
+    const project_name = request.body;
 
     database('projects').insert(project_name, '*')
     .then( project => {
@@ -26,7 +26,7 @@ app.post('/api/v1/projects', (request, response) => {
 });
 
 app.post('/api/v1/palettes', (request, response) => {
-    const palette = request.body
+    const palette = request.body;
 
     database('palettes').insert(palette, '*')
     .then( palette => {
