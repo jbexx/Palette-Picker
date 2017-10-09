@@ -12,4 +12,4 @@ machine:
   production:
     branch: master
     heroku:
-      appname: Palette-Picker
+      appname: jb-palette-picker
