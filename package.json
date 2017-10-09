@@ -15,10 +15,10 @@
     "pg": "^7.3.0"
   },
   "devDependencies": {
-    "mocha": "^3.5.0"
+    "mocha": "^4.0.0"
   },
   "scripts": {
-    "test": "NODE_ENV=test PORT=3001 mocha",
+    "test": "NODE_ENV=test ./node-modules/.bin/mocha --exit",
     "start": "node server.js"
   },
   "repository": {
