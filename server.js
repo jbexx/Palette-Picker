@@ -10,6 +10,13 @@ const database = require('knex')(configuration);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use((request, response, next) => {
+    if (req.secure) {
+        next();
+    } else {
+        res.redirect('https://' + req.headers.host + req.url);
+    }
+})
 
 app.set('port', process.env.PORT || 3000);
 
