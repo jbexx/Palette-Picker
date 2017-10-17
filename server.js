@@ -13,7 +13,7 @@ app.use((request, response, next) => {
     if (request.secure) {
         next();
     } else {
-        response.redirect('https://jb-palette-picker.herokuapp.com/');
+        response.redirect('https://' + request.get('host') + request.url);
     }
 });
 app.use(bodyParser.json());
