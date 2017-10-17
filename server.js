@@ -10,12 +10,10 @@ const database = require('knex')(configuration);
 app.enable('trust proxy');
 
 app.use((request, response, next) => {
-    console.log('secure ', request.secure)
-    console.log('header ', request.header)
     if (request.secure) {
         next();
     } else {
-        response.redirect('https://jb-palette-picker.herokuapp.com/');
+        response.redirect('https://' + req.headers.host + req.url);
     }
 });
 app.use(bodyParser.json());
