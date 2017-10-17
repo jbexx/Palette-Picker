@@ -192,7 +192,7 @@ describe('API Routes', () => {
                 project_name: 'The Venus Project'
             })
             .end((error, response) => {
-                response.should.have.status(201);
+                response.should.have.status(200);
                 response.body.should.be.a('array');
                 response.body.length.should.equal(1);                
                 response.body[0].should.have.property('id');
