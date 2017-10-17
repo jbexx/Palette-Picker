@@ -11,10 +11,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((request, response, next) => {
-    if (req.secure) {
+    if (request.secure) {
         next();
     } else {
-        res.redirect('https://' + req.headers.host + req.url);
+        response.redirect('https://' + request.headers.host + request.url);
     }
 })
 
