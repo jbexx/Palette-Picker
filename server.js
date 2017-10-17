@@ -13,6 +13,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((request, response, next) => {
+    console.log('secure ', request.secure)
+    console.log('header ', request.header)
     if (request.secure) {
         next();
     } else {
